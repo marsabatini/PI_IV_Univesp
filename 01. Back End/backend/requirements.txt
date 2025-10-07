@@ -1,0 +1,19 @@
+# Flask e extensões
+Flask
+flask-smorest
+flask-sqlalchemy
+flask-migrate
+Flask-JWT-Extended
+flask-cors
+
+# Banco de dados
+psycopg2-binary
+SQLAlchemy
+
+# Serialização
+marshmallow
+marshmallow-sqlalchemy
+
+# Desenvolvimento
+python-dotenv
+bcrypt==4.1.2
