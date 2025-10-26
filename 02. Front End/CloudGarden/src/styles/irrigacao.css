@@ -1,0 +1,1145 @@
+
+/* Container Principal */
+.irrigacao-container {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+/* Alertas */
+.alertas-secao {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.alerta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  animation: deslizarDireita 0.3s ease;
+}
+
+.alerta-aviso {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffe4a0 100%);
+  border-left: 4px solid #ffc107;
+}
+
+.alerta-info {
+  background: linear-gradient(135deg, #d1ecf1 0%, #b3d9e8 100%);
+  border-left: 4px solid #17a2b8;
+}
+
+.alerta-sucesso {
+  background: linear-gradient(135deg, #d4edda 0%, #b8dfca 100%);
+  border-left: 4px solid #28a745;
+}
+
+.alerta-icone svg {
+  flex-shrink: 0;
+}
+
+.alerta-mensagem {
+  font-size: 0.9rem;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+/* Grade de Controles - Linha 1: Controle Principal + Condições Ambientais */
+.grade-controle {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1400px) {
+  .grade-controle {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Grade Status de Zonas - Linha 2: Status de Zonas (largura completa) */
+.grade-status-zonas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.cartao-controle {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cartao-controle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.cabecalho-controle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.cabecalho-controle h2 {
+  font-size: 1.25rem;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Alternador de Modo */
+.alternador-modo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f3f4f6;
+  padding: 0.25rem;
+  border-radius: 0.75rem;
+}
+
+.alternador-modo span {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.alternador-modo span.ativo {
+  color: #0d9488;
+}
+
+.botao-alternador {
+  position: relative;
+  width: 3.5rem;
+  height: 2rem;
+  background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.botao-alternador:has(.alternador-bolinha.ligado) {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+}
+
+.alternador-bolinha {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.alternador-bolinha.ligado {
+  transform: translateX(1.5rem);
+}
+
+/* Exibição de Status */
+.exibicao-status {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.indicador-status {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-radius: 1rem;
+  border: 1px solid #a7f3d0;
+}
+
+.circulo-status {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.circulo-status.ativo {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: white;
+  box-shadow: 0 0 30px rgba(20, 184, 166, 0.4);
+}
+
+.circulo-status.pausado {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: white;
+}
+
+.circulo-status.agendado {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  color: white;
+}
+
+.circulo-status.inativo {
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  color: #6b7280;
+}
+
+.circulo-status svg.pulse {
+  animation: pulsar 2s infinite;
+}
+
+@keyframes pulsar {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.texto-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.rotulo-status {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.valor-status {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* Botões de Controle */
+.botoes-controle {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-controle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-controle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-iniciar {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.btn-iniciar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+}
+
+.btn-pausar {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.btn-pausar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
+}
+
+.btn-parar {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.btn-parar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(239, 68, 68, 0.3);
+}
+
+/* Estatísticas Rápidas */
+.estatisticas-rapidas {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+}
+
+.item-estatistica {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item-estatistica svg {
+  color: #0d9488;
+}
+
+.rotulo-estatistica {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.valor-estatistica {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* Seletor de Zona */
+.seletor-zona {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: white;
+  font-size: 0.875rem;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+/* Grade de Zonas - Agora com 4 colunas em desktop */
+.grade-zonas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1400px) {
+  .grade-zonas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grade-zonas {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cartao-zona {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.cartao-zona:hover {
+  border-color: #14b8a6;
+  background: white;
+}
+
+.titulo-zona {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.titulo-zona h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.info-zona {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.metrica-zona {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metrica-zona span:first-of-type {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.rotulo-metrica {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.indicador-saude {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.saude-excelente {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.saude-bom {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.saude-atencao {
+  background: #fed7aa;
+  color: #92400e;
+}
+
+.saude-critico {
+  background: #fecaca;
+  color: #991b1b;
+}
+
+.programacao-zona {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 0.5rem;
+}
+
+.item-programacao {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.acoes-zona {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-acao-zona {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-acao-irrigar {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.btn-acao-irrigar:hover:not(:disabled) {
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.btn-acao-irrigar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Status Icons */
+.status-ativo {
+  color: #10b981;
+}
+
+.status-agendado {
+  color: #3b82f6;
+}
+
+.status-pausado {
+  color: #f59e0b;
+}
+
+.status-inativo {
+  color: #9ca3af;
+}
+
+/* Cartão de Ambiente */
+.cartao-ambiente h3 {
+  font-size: 1.125rem;
+  color: #1f2937;
+  margin: 0 0 1.5rem 0;
+}
+
+.grade-ambiente {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.item-ambiente {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.item-ambiente:hover {
+  background: #f3f4f6;
+}
+
+.icone-ambiente {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icone-ambiente.temp {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #ef4444;
+}
+
+.icone-ambiente.umidade {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #3b82f6;
+}
+
+.icone-ambiente.vento {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  color: #6366f1;
+}
+
+.icone-ambiente.sol {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #f59e0b;
+}
+
+.dados-ambiente {
+  display: flex;
+  flex-direction: column;
+}
+
+.valor-ambiente {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.rotulo-ambiente {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.previsao-clima {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  border-radius: 0.75rem;
+  color: #0c4a6e;
+  font-weight: 500;
+}
+
+/* Programações */
+.cartao-programacoes {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.cabecalho-cartao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.cabecalho-cartao h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.btn-adicionar-programacao {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-adicionar-programacao:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(20, 184, 166, 0.3);
+}
+
+.lista-programacoes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item-programacao {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.item-programacao.ativo {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: #a7f3d0;
+}
+
+.item-programacao:hover {
+  background: white;
+}
+
+.info-programacao {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.principal-programacao {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.principal-programacao h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.horario-programacao {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.detalhes-programacao {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.zonas-programacao {
+  display: flex;
+  align-items: center;
+}
+
+.dias-programacao {
+  display: flex;
+  align-items: center;
+}
+
+.acoes-programacao {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-alternar {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e5e7eb;
+  background: white;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-alternar.ativo {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border-color: transparent;
+}
+
+.btn-editar {
+  padding: 0.5rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-editar:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+/* Grade Histórico e Análise */
+.grade-historico-analise {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1200px) {
+  .grade-historico-analise {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cartao-historico, .cartao-analise {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.btn-ver-tudo {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-ver-tudo:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.lista-historico {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.item-historico {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.item-historico:hover {
+  background: #f3f4f6;
+  transform: translateX(4px);
+}
+
+.horario-historico {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  min-width: 80px;
+}
+
+.detalhes-historico {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0 1rem;
+}
+
+.zona-historico {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.metricas-historico {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.status-historico {
+  display: flex;
+  align-items: center;
+}
+
+.status-historico.completo {
+  color: #10b981;
+}
+
+.status-historico.interrompido {
+  color: #f59e0b;
+}
+
+.seletor-periodo {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: white;
+  font-size: 0.875rem;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.estatisticas-consumo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .estatisticas-consumo {
+    grid-template-columns: 1fr;
+  }
+}
+
+.caixa-estatistica {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.caixa-estatistica:hover {
+  background: #f3f4f6;
+  transform: translateY(-2px);
+}
+
+.icone-estatistica {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icone-estatistica.agua {
+  background: linear-gradient(135deg, #e0f2fe 0%, #7dd3fc 100%);
+  color: #0284c7;
+}
+
+.icone-estatistica.eficiencia {
+  background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
+  color: #d97706;
+}
+
+.icone-estatistica.tempo {
+  background: linear-gradient(135deg, #f3e8ff 0%, #c084fc 100%);
+  color: #9333ea;
+}
+
+.info-estatistica {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.tendencia-estatistica {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.tendencia-estatistica.positiva {
+  color: #10b981;
+}
+
+.tendencia-estatistica.negativa {
+  color: #ef4444;
+}
+
+.tendencia-estatistica.neutra {
+  color: #6b7280;
+}
+
+.grafico-consumo {
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.placeholder-grafico {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #9ca3af;
+}
+
+/* Configurações Avançadas */
+.configuracoes-avancadas {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.alternador-avancado {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 1rem;
+}
+
+.alternador-avancado:hover {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+.alternador-avancado span {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.painel-avancado {
+  padding: 2rem;
+  border-top: 1px solid #e5e7eb;
+  animation: deslizarBaixo 0.3s ease;
+}
+
+@keyframes deslizarBaixo {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.grade-avancada {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 1200px) {
+  .grade-avancada {
+    grid-template-columns: 1fr;
+  }
+}
+
+.secao-avancada {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.secao-avancada h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.lista-parametros, .lista-algoritmos, .lista-limites {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item-parametro, .item-limite {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item-parametro label, .item-limite label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.item-parametro select, .item-parametro input, .item-limite input {
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: white;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.item-parametro select:focus, .item-parametro input:focus, .item-limite input:focus {
+  outline: none;
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+.item-algoritmo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.item-algoritmo:hover {
+  background: #f3f4f6;
+}
+
+.item-algoritmo input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: #14b8a6;
+}
+
+.item-algoritmo span {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+/* Animações */
+@keyframes deslizarDireita {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .irrigacao-container {
+    padding: 0;
+  }
+
+  .grade-controle {
+    grid-template-columns: 1fr;
+  }
+
+  .grade-status-zonas {
+    grid-template-columns: 1fr;
+  }
+
+  .grade-zonas {
+    grid-template-columns: 1fr;
+  }
+
+  .grade-ambiente {
+    grid-template-columns: 1fr;
+  }
+
+  .estatisticas-rapidas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .item-estatistica {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .cartao-controle, .cartao-zona, .cartao-programacoes, 
+  .cartao-historico, .cartao-analise, .configuracoes-avancadas {
+    background: #1f2937;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .cabecalho-controle h2, .titulo-zona h4, 
+  .principal-programacao h4, .cabecalho-cartao h3 {
+    color: #f3f4f6;
+  }
+
+  .rotulo-status, .rotulo-estatistica, .rotulo-ambiente, 
+  .detalhes-programacao {
+    color: #9ca3af;
+  }
+
+  .alerta {
+    opacity: 0.9;
+  }
+}
+
+/* Print styles */
+@media print {
+  .alertas-secao, .botoes-controle, 
+  .btn-acao-zona, .btn-alternar, .btn-editar, .alternador-avancado {
+    display: none;
+  }
+}

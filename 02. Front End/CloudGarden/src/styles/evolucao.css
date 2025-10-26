@@ -1,0 +1,863 @@
+/* ==========================================
+   PÁGINA DE EVOLUÇÃO - CLOUDGARDEN
+   ========================================== */
+
+/* Barra de Ferramentas */
+.barra-ferramentas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.controles-periodo {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-periodo {
+  padding: 0.625rem 1.25rem;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-periodo:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.btn-periodo.ativo {
+  background: linear-gradient(135deg, #4db6ac 0%, #26a69a 100%);
+  color: white;
+  border-color: #4db6ac;
+  box-shadow: 0 2px 8px rgba(77, 182, 172, 0.2);
+}
+
+.acoes-rapidas {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-acao {
+  padding: 0.625rem 1rem;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-acao:hover {
+  background: #f9fafb;
+  border-color: #4db6ac;
+  color: #4db6ac;
+}
+
+/* Grade de Métricas Principais */
+.grade-metricas-principais {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card-metrica-principal {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.card-metrica-principal:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.header-metrica {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.icone-metrica {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-metrica {
+  flex: 1;
+}
+
+.label-metrica {
+  display: block;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.valor-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.valor-metrica {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.badge-tendencia {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.tendencia-alta {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #16a34a;
+}
+
+.tendencia-baixa {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #dc2626;
+}
+
+.tendencia-estavel {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  color: #4f46e5;
+}
+
+.mini-grafico {
+  margin-top: 1rem;
+  height: 60px;
+}
+
+/* Seção de Crescimento */
+.secao-crescimento {
+  margin-bottom: 2rem;
+}
+
+.cartao {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.cartao:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.cabecalho-cartao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.titulo-com-icone {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.titulo-com-icone h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.titulo-com-icone svg {
+  color: #4db6ac;
+}
+
+.btn-detalhes,
+.btn-expandir {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-detalhes:hover,
+.btn-expandir:hover {
+  background: #f9fafb;
+  border-color: #4db6ac;
+  color: #4db6ac;
+}
+
+.lista-plantas {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item-planta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.item-planta:hover {
+  background: #f3f4f6;
+  transform: translateX(4px);
+}
+
+.info-planta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icone-planta {
+  font-size: 2rem;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.dados-planta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nome-planta {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.9375rem;
+}
+
+.metricas-planta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.crescimento-badge {
+  padding: 0.125rem 0.5rem;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #16a34a;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.saude-planta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.barra-saude {
+  width: 8rem;
+  height: 0.5rem;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progresso-saude {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.status-excelente {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+}
+
+.status-boa {
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.status-atencao {
+  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+}
+
+.valor-saude {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  min-width: 3rem;
+  text-align: right;
+}
+
+/* Seção Comparativo */
+.secao-comparativo {
+  margin-bottom: 2rem;
+}
+
+.resumo-comparativo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.comparativo-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.comparativo-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.comparativo-valores {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.valor-comparativo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.numero-comparativo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.label-pequeno {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.diferenca-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.diferenca-badge.positiva {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #16a34a;
+}
+
+.diferenca-badge.negativa {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #dc2626;
+}
+
+.detalhes-comparativo {
+  padding-top: 1.5rem;
+  border-top: 1px solid #f3f4f6;
+  margin-top: 1rem;
+}
+
+.grafico-comparativo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.barra-comparativa {
+  display: grid;
+  grid-template-columns: 120px 1fr 80px;
+  align-items: center;
+  gap: 1rem;
+}
+
+.label-barra {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.barra {
+  height: 2rem;
+  background: #f3f4f6;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.preenchimento-barra {
+  height: 100%;
+  border-radius: 0.5rem;
+  transition: width 0.3s ease;
+}
+
+.preenchimento-barra.anterior {
+  background: linear-gradient(90deg, #9ca3af 0%, #6b7280 100%);
+}
+
+.preenchimento-barra.atual {
+  background: linear-gradient(90deg, #4db6ac 0%, #26a69a 100%);
+}
+
+.valor-barra {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: right;
+}
+
+/* Grade Histórico e Previsões */
+.grade-historico-previsoes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Timeline do Histórico */
+.timeline-historico {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.item-timeline {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 1rem;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.marcador-timeline {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 3px solid;
+  background: white;
+  position: relative;
+  z-index: 2;
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.tipo-irrigacao {
+  border-color: #3b82f6;
+}
+
+.tipo-fertilizacao {
+  border-color: #10b981;
+}
+
+.tipo-ajuste {
+  border-color: #f59e0b;
+}
+
+.linha-timeline {
+  position: absolute;
+  left: 11px;
+  top: 28px;
+  width: 2px;
+  height: calc(100% - 28px);
+  background: #e5e7eb;
+}
+
+.linha-timeline.ultima {
+  display: none;
+}
+
+.conteudo-timeline {
+  padding-bottom: 0.5rem;
+}
+
+.cabecalho-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  gap: 1rem;
+}
+
+.titulo-acao {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.9375rem;
+}
+
+.data-acao {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+.detalhes-acao {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.detalhe-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.detalhe-item svg {
+  color: #9ca3af;
+}
+
+.detalhe-item.impacto {
+  color: #4db6ac;
+  font-weight: 500;
+}
+
+/* Previsões */
+.lista-previsoes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item-previsao {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.item-previsao:hover {
+  background: #f3f4f6;
+}
+
+.cabecalho-previsao {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.info-previsao {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.metrica-previsao {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.valor-previsao {
+  font-size: 1rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.btn-detalhes-mini {
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.btn-detalhes-mini:hover {
+  background: white;
+  color: #4db6ac;
+}
+
+.barra-confianca {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label-confianca {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.valor-confianca {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.barra-progresso {
+  height: 0.5rem;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.preenchimento-progresso {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.confianca-alta {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+}
+
+.confianca-media {
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.confianca-baixa {
+  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+}
+
+.detalhes-previsao {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.detalhes-previsao svg {
+  color: #4db6ac;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.detalhes-previsao p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* Painel de Estatísticas */
+.painel-estatisticas {
+  margin-bottom: 2rem;
+}
+
+.grade-estatisticas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  background: #f3f4f6;
+  transform: translateY(-2px);
+}
+
+.stat-icone {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icone.agua {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #3b82f6;
+}
+
+.stat-icone.energia {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #f59e0b;
+}
+
+.stat-icone.eficiencia {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #10b981;
+}
+
+.stat-icone.crescimento {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  color: #4f46e5;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-valor {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.stat-meta {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* Responsividade */
+@media (max-width: 1400px) {
+  .grade-historico-previsoes {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1024px) {
+  .barra-ferramentas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controles-periodo,
+  .acoes-rapidas {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .grade-metricas-principais {
+    grid-template-columns: 1fr;
+  }
+
+  .resumo-comparativo {
+    grid-template-columns: 1fr;
+  }
+
+  .grade-estatisticas {
+    grid-template-columns: 1fr;
+  }
+
+  .barra-comparativa {
+    grid-template-columns: 100px 1fr 60px;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cartao {
+    padding: 1rem;
+  }
+
+  .cabecalho-cartao {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .item-planta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .saude-planta {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .barra-saude {
+    flex: 1;
+  }
+}
+
+/* Animações */
+@keyframes deslizarDireita {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.card-metrica-principal,
+.cartao,
+.stat-card {
+  animation: fadeIn 0.3s ease;
+}
