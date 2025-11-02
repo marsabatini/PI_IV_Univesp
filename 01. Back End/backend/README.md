@@ -19,12 +19,13 @@ backend/
 │   ├── schemas/           # Validação com Marshmallow
 │   ├── config.py          # Configurações
 │   └── extensions.py      # Extensões Flask
-└── docker-compose.yml     # Configuração Docker
+└── Dockerfile
+docker-compose.yml         # Configuração Docker
 ```
 
 ## 🛠️ Instalação e Execução
 
-### Docker (Recomendado)
+### Docker
 
 1. **Clone o repositório**
 ```bash
@@ -34,8 +35,19 @@ cd horta-iot-api
 
 2. **Configure as variáveis de ambiente**
 ```bash
-cp backend/.env.example backend/.env
-# Edite o arquivo .env conforme necessário
+# Crie e edite o arquivo .env conforme necessário
+
+# Configurações do Flask
+FLASK_ENV='development'
+SECRET_KEY='secret-key'
+JWT_SECRET_KEY='jwt-secret-key'
+
+# Configurações do banco de dados
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=postgres
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
 ```
 
 3. **Execute com Docker**
@@ -44,39 +56,26 @@ cp backend/.env.example backend/.env
 make up
 
 # Ou manualmente
-docker compose up -d
+docker compose up
 ```
 
 4. **Inicialize o banco de dados**
 ```bash
+# Para esses comandos funcionarem é preciso rodar o comadno anterior em outro terminal.
+# inicializa o banco
 make db-init
+
+# cria dados de exemplo
 make sample-data
-```
-
-### Desenvolvimento Local
-
-1. **Instalar dependências**
-```bash
-cd backend
-pip install -r requirements.txt
-```
-
-2. **Configurar banco PostgreSQL**
-```bash
-# Configure as variáveis no .env
-export POSTGRES_HOST=localhost
-export POSTGRES_USER=postgres
-export POSTGRES_PASSWORD=postgres
-```
-
-3. **Executar aplicação**
-```bash
-python run.py
 ```
 
 ## 📚 Uso da API
 
 ### Endpoints Principais
+**Auth**
+- `POST /api/v1/auth/register` - Registrar novo usuário
+- `GET /api/v1/auth/login` - Login do usuário
+- `GET /api/v1/auth/profile` - Obter perfil do usuário logado
 
 **Eventos IoT**
 - `POST /api/v1/events` - Criar evento
@@ -96,6 +95,25 @@ python run.py
 - `GET /api/v1/heartbeats/devices/status` - Status de todos os dispositivos
 
 ### Exemplos de Requisições
+
+**Criar Usuário**
+```json
+POST /api/v1/auth/register
+{
+  "username": "Jose",
+  "email": "jose@example.com",
+  "password": "123456"
+}
+```
+
+**Fazer Login**
+```json
+POST /api/v1/auth/login
+{
+  "username": "Jose",
+  "password": "123456"
+}
+```
 
 **Criar Evento de Sensor**
 ```json
@@ -151,7 +169,7 @@ POST /api/v1/heartbeats
 # Ver logs
 make logs
 
-# Acessar shell do container
+# Acessar shell do backend
 make shell
 
 # Ver rotas da API
