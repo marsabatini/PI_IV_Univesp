@@ -3,6 +3,7 @@ from flask_smorest import Blueprint, abort
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from app.extensions import db
 from app.models.user import User
+from app.models.school import School
 from app.schemas.auth import UserRegistrationSchema, UserLoginSchema, TokenResponseSchema
 
 blp = Blueprint('auth', __name__, description='Autenticação e registro de usuários')
@@ -14,17 +15,36 @@ class UserRegistration(MethodView):
     def post(self, user_data):
         """Registrar novo usuário"""
         # Verificar se usuário já existe
-        if User.query.filter_by(username=user_data['username']).first():
+        if User.query.filter_by(name=user_data['name']).first():
             abort(400, message="Username já existe")
         
         if User.query.filter_by(email=user_data['email']).first():
             abort(400, message="Email já está em uso")
+
+
+        # Criar usuário + escola
+        school_data = user_data.pop('school')
+
+        #verifica se a escola já existe a partir do email
+        if School.query.filter_by(schoolEmail=school_data['schoolEmail']).first():
+            abort(400, message="Email escolar já está em uso")
         
-        # Criar usuário
-        user = User(username=user_data['username'], email=user_data['email'])
+        school = School(**school_data)
+
+        user = User(name=user_data['name'],
+                    email=user_data['email'], 
+                    phone=user_data['phone'], 
+                    cpf=user_data['cpf'], 
+                    position=user_data['position'], 
+                    university=user_data['university'], 
+                    graduationYear=user_data['graduationYear'],
+                    school=school
+                    )
+
         user.set_password(user_data['password'])
         
         try:
+            db.session.add(school)
             db.session.add(user)
             db.session.commit()
             
@@ -37,8 +57,9 @@ class UserRegistration(MethodView):
                 'refresh_token': refresh_token,
                 'user': {
                     'id': user.id,
-                    'username': user.username,
-                    'email': user.email
+                    'name': user.name,
+                    'email': user.email,
+                    'school_id':user.school_id
                 }
             }
         except Exception as e:
@@ -51,7 +72,7 @@ class UserLogin(MethodView):
     @blp.response(200, TokenResponseSchema)
     def post(self, login_data):
         """Login do usuário"""
-        user = User.query.filter_by(username=login_data['username']).first()
+        user = User.query.filter_by(email=login_data['email']).first()
         
         if not user or not user.check_password(login_data['password']):
             abort(401, message="Credenciais inválidas")
@@ -68,7 +89,12 @@ class UserLogin(MethodView):
             'refresh_token': refresh_token,
             'user': {
                 'id': user.id,
-                'username': user.username,
+                'name': user.name,
+                'phone':user.phone,
+                'cpf':user.cpf,
+                'university':user.university,
+                'position':user.position,
+                'graduationYear':user.graduationYear,
                 'email': user.email
             }
         }
@@ -84,7 +110,26 @@ class UserProfile(MethodView):
         
         return {
             'id': user.id,
-            'username': user.username,
+            'name': user.name,
             'email': user.email,
-            'created_at': user.created_at
+            'cpf':user.cpf,
+            'phone':user.phone,
+            'university':user.university,
+            'graduationYear':user.graduationYear,
+            'position':user.position,
+            'created_at': user.created_at,
+            'school': {
+                'id': user.school.id,
+                'schoolName': user.school.schoolName,
+                'directorName': user.school.directorName,
+                'coordinatorName': user.school.coordinatorName,
+                'schoolAddress': user.school.schoolAddress,
+                'schoolCity': user.school.schoolCity,
+                'schoolState': user.school.schoolState,
+                'schoolZip': user.school.schoolZip,
+                'schoolPhone': user.school.schoolPhone,
+                'schoolEmail': user.school.schoolEmail,
+                'studentsCount': user.school.studentsCount,
+                'schoolType': user.school.schoolType
+            }
         }

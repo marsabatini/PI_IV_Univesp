@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { 
+import { Link, useNavigate } from 'react-router-dom';
+import {
   Eye, EyeOff, Mail, Lock, User, ArrowLeft, ArrowRight,
   Phone, MapPin, Building, Users, GraduationCap, Calendar,
   Check, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
+import api from "../services/Api.js"
 
 import '../styles/register.css'
 
@@ -19,13 +20,12 @@ const Register = () => {
     cpf: '',
     phone: '',
     email: '',
-    age: '',
     university: '',
     graduationYear: '',
     position: '',
     password: '',
     confirmPassword: '',
-    
+
     // Dados da escola
     schoolName: '',
     directorName: '',
@@ -40,7 +40,9 @@ const Register = () => {
     schoolType: '',
     hasGarden: false
   });
-  
+
+  const navigate = useNavigate()
+
   const [errors, setErrors] = useState({});
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
@@ -48,19 +50,19 @@ const Register = () => {
 
   // Estados brasileiros
   const brazilianStates = [
-    'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 
-    'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 
+    'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO',
+    'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI',
     'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
   ];
 
   // Validações
   const validateCPF = (cpf) => {
     cpf = cpf.replace(/[^\d]/g, '');
-    
+
     if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
       return false;
     }
-    
+
     let sum = 0;
     for (let i = 0; i < 9; i++) {
       sum += parseInt(cpf.charAt(i)) * (10 - i);
@@ -68,7 +70,7 @@ const Register = () => {
     let remainder = (sum * 10) % 11;
     if (remainder === 10 || remainder === 11) remainder = 0;
     if (remainder !== parseInt(cpf.charAt(9))) return false;
-    
+
     sum = 0;
     for (let i = 0; i < 10; i++) {
       sum += parseInt(cpf.charAt(i)) * (11 - i);
@@ -76,7 +78,7 @@ const Register = () => {
     remainder = (sum * 10) % 11;
     if (remainder === 10 || remainder === 11) remainder = 0;
     if (remainder !== parseInt(cpf.charAt(10))) return false;
-    
+
     return true;
   };
 
@@ -195,11 +197,11 @@ const Register = () => {
       newErrors.email = 'Email inválido';
     }
 
-    if (!formData.age) {
-      newErrors.age = 'Idade é obrigatória';
-    } else if (formData.age < 18 || formData.age > 100) {
-      newErrors.age = 'Idade deve estar entre 18 e 100 anos';
-    }
+    //if (!formData.age) {
+    //  newErrors.age = 'Idade é obrigatória';
+    //} else if (formData.age < 18 || formData.age > 100) {
+    //  newErrors.age = 'Idade deve estar entre 18 e 100 anos';
+    //}
 
     if (!formData.university.trim()) {
       newErrors.university = 'Universidade é obrigatória';
@@ -313,7 +315,7 @@ const Register = () => {
   // Submeter formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (etapaAtual === 1) {
       nextStep();
       return;
@@ -326,9 +328,32 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await api.post('/api/v1/auth/register', {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        cpf: formData.cpf,
+        position: formData.position,
+        university: formData.university,
+        graduationYear: formData.graduationYear,
+        password: formData.password,
+        school: {
+          schoolName: formData.schoolName,
+          directorName: formData.directorName,
+          coordinatorName: formData.coordinatorName,
+          schoolAddress: formData.schoolAddress,
+          schoolCity: formData.schoolCity,
+          schoolState: formData.schoolState,
+          schoolZip: formData.schoolZip,
+          schoolPhone: formData.schoolPhone,
+          schoolEmail: formData.schoolEmail,
+          studentsCount: Number(formData.studentsCount),
+          schoolType: formData.schoolType
+        }
+      });
       console.log('Cadastro completo:', formData);
       alert('Cadastro realizado com sucesso!');
+      navigate('/login')
     } catch (error) {
       console.error('Erro:', error);
       alert('Erro ao processar cadastro');
@@ -358,9 +383,9 @@ const Register = () => {
 
       {/* Logo flutuante */}
       <div className="floating-logo">
-        <img 
-          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmx1ZUdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzAwYWNmZjtzdG9wLW9wYWNpdHk6MSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMDA3OGZmO3N0b3Atb3BhY2l0eToxIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JlZW5HcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM2Y2ZmNjc7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzRjYWY1MDtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDwhLS0gRHJvcCBzaGFwZSAtLT4KICA8cGF0aCBkPSJNMjAgM0MxNSAzIDEwIDggMTAgMTVDMTAgMjIgMTUgMzAgMjAgMzBTMzAgMjIgMzAgMTVDMzAgOCAyNSAzIDIwIDNaIiBmaWxsPSJ1cmwoI2JsdWVHcmFkaWVudCkiLz4KICA8IS0tIExlYWYgc2hhcGUgLS0+CiAgPGVsbGlwc2UgY3g9IjEyIiBjeT0iMjAiIHJ4PSI4IiByeT0iMTIiIGZpbGw9InVybCgjZ3JlZW5HcmFkaWVudCkiLz4KICA8IS0tIExlYWYgZGV0YWlsIC0tPgogIDxwYXRoIGQ9Ik04IDIwUTEyIDI0IDE2IDIwIiBzdHJva2U9IiMyZTdkMzIiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIERpZ2l0YWwgZWxlbWVudHMgLS0+CiAgPHJlY3QgeD0iMjEiIHk9IjEyIiB3aWR0aD0iMyIgaGVpZ2h0PSIzIiBmaWxsPSJ3aGl0ZSIgcng9IjAuNSIvPgogIDxyZWN0IHg9IjI2IiB5PSIxMiIgd2lkdGg9IjIiIGhlaWdodD0iMiIgZmlsbD0id2hpdGUiIHJ4PSIwLjMiLz4KICA8cmVjdCB4PSIyMSIgeT0iMTciIHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IndoaXRlIiByeD0iMC4zIi8+CiAgPHJlY3QgeD0iMjUiIHk9IjE3IiB3aWR0aD0iMyIgaGVpZ2h0PSIzIiBmaWxsPSJ3aGl0ZSIgcng9IjAuNSIvPgogIDxyZWN0IHg9IjIxIiB5PSIyMiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgZmlsbD0id2hpdGUiIHJ4PSIwLjUiLz4KPC9zdmc+" 
-          alt="CloudGarden" 
+        <img
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmx1ZUdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzAwYWNmZjtzdG9wLW9wYWNpdHk6MSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMDA3OGZmO3N0b3Atb3BhY2l0eToxIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JlZW5HcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM2Y2ZmNjc7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzRjYWY1MDtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDwhLS0gRHJvcCBzaGFwZSAtLT4KICA8cGF0aCBkPSJNMjAgM0MxNSAzIDEwIDggMTAgMTVDMTAgMjIgMTUgMzAgMjAgMzBTMzAgMjIgMzAgMTVDMzAgOCAyNSAzIDIwIDNaIiBmaWxsPSJ1cmwoI2JsdWVHcmFkaWVudCkiLz4KICA8IS0tIExlYWYgc2hhcGUgLS0+CiAgPGVsbGlwc2UgY3g9IjEyIiBjeT0iMjAiIHJ4PSI4IiByeT0iMTIiIGZpbGw9InVybCgjZ3JlZW5HcmFkaWVudCkiLz4KICA8IS0tIExlYWYgZGV0YWlsIC0tPgogIDxwYXRoIGQ9Ik04IDIwUTEyIDI0IDE2IDIwIiBzdHJva2U9IiMyZTdkMzIiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIERpZ2l0YWwgZWxlbWVudHMgLS0+CiAgPHJlY3QgeD0iMjEiIHk9IjEyIiB3aWR0aD0iMyIgaGVpZ2h0PSIzIiBmaWxsPSJ3aGl0ZSIgcng9IjAuNSIvPgogIDxyZWN0IHg9IjI2IiB5PSIxMiIgd2lkdGg9IjIiIGhlaWdodD0iMiIgZmlsbD0id2hpdGUiIHJ4PSIwLjMiLz4KICA8cmVjdCB4PSIyMSIgeT0iMTciIHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IndoaXRlIiByeD0iMC4zIi8+CiAgPHJlY3QgeD0iMjUiIHk9IjE3IiB3aWR0aD0iMyIgaGVpZ2h0PSIzIiBmaWxsPSJ3aGl0ZSIgcng9IjAuNSIvPgogIDxyZWN0IHg9IjIxIiB5PSIyMiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgZmlsbD0id2hpdGUiIHJ4PSIwLjUiLz4KPC9zdmc+"
+          alt="CloudGarden"
         />
         <span>CloudGarden</span>
       </div>
@@ -390,7 +415,7 @@ const Register = () => {
             {etapaAtual === 1 ? 'Responsável' : 'Escola'}
           </h1>
           <p>
-            {etapaAtual === 1 
+            {etapaAtual === 1
               ? 'Informe seus dados pessoais e acadêmicos'
               : 'Informe os dados da instituição de ensino'
             }
@@ -457,7 +482,7 @@ const Register = () => {
                   {errors.phone && <span className="error-message">{errors.phone}</span>}
                 </div>
 
-                <div className="input-group">
+                {/*<div className="input-group">
                   <label htmlFor="age">Idade *</label>
                   <div className="input-wrapper">
                     <Calendar size={20} className="input-icon" />
@@ -475,6 +500,7 @@ const Register = () => {
                   </div>
                   {errors.age && <span className="error-message">{errors.age}</span>}
                 </div>
+                */}
               </div>
 
               <div className="input-group">
@@ -820,11 +846,11 @@ const Register = () => {
                       className={errors.schoolType ? 'error' : ''}
                     >
                       <option value="">Selecione o tipo</option>
-                      <option value="publica_municipal">Pública Municipal</option>
-                      <option value="publica_estadual">Pública Estadual</option>
-                      <option value="publica_federal">Pública Federal</option>
-                      <option value="privada">Privada</option>
-                      <option value="ong">ONG/Filantrópica</option>
+                      <option value="Publica Municipal">Pública Municipal</option>
+                      <option value="Publica Estadual">Pública Estadual</option>
+                      <option value="Publica Federal">Pública Federal</option>
+                      <option value="Privada">Privada</option>
+                      <option value="ONG/Filantrópica">ONG/Filantrópica</option>
                     </select>
                   </div>
                   {errors.schoolType && <span className="error-message">{errors.schoolType}</span>}
