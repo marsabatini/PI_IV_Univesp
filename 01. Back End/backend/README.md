@@ -43,11 +43,11 @@ SECRET_KEY='secret-key'
 JWT_SECRET_KEY='jwt-secret-key'
 
 # Configurações do banco de dados
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=postgres
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=postgres
+DB_HOST=db
+DB_PORT=5432
 ```
 
 3. **Execute com Docker**
@@ -67,6 +67,32 @@ make db-init
 
 # cria dados de exemplo
 make sample-data
+```
+
+5. **Outra opção executar com (venv)**
+```bash
+# Dentro da pasta do seu projeto (onde está o requirements.txt)
+
+# criar o venv
+python3 -m venv venv
+
+# ativar o venv
+# Linux / macOS
+source venv/bin/activate
+
+# Windows (PowerShell)
+venv\Scripts\Activate
+
+# Instalar as dependências quando for adicionado um novo pacote no projeto
+# Com o ambiente virtual ativado, rode:
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# Rodar a aplicação
+python run.py
+
+# Desativar o ambiente virtual
+deactivate
 ```
 
 ## 📚 Uso da API
@@ -100,9 +126,27 @@ make sample-data
 ```json
 POST /api/v1/auth/register
 {
-  "username": "Jose",
-  "email": "jose@example.com",
-  "password": "123456"
+  "name": "string",
+  "email": "user@example.com",
+  "password": "string",
+  "phone": "string",
+  "cpf": "string",
+  "position": "string",
+  "university": "string",
+  "graduationYear": "string",
+  "school": {
+    "schoolName": "string",
+    "directorName": "string",
+    "coordinatorName": "string",
+    "schoolAddress": "string",
+    "schoolCity": "string",
+    "schoolState": "string",
+    "schoolZip": "string",
+    "schoolPhone": "string",
+    "schoolEmail": "user@example.com",
+    "studentsCount": 0,
+    "schoolType": "Privada"
+  }
 }
 ```
 
@@ -110,8 +154,8 @@ POST /api/v1/auth/register
 ```json
 POST /api/v1/auth/login
 {
-  "username": "Jose",
-  "password": "123456"
+  "email": "user@example.com",
+  "password": "string"
 }
 ```
 
