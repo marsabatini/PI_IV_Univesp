@@ -33,3 +33,18 @@ sample-data: ## Criar dados de exemplo
 
 routes: ## Mostrar rotas da API
 	docker compose exec backend python manage.py show-routes
+
+clean-all: ## Limpar todos os containers, imagens, volumes e redes (CUIDADO: remove tudo!)
+	@echo "🛑 Parando todos os containers..."
+	-@docker stop $(shell docker ps -aq) 2>/dev/null || true
+	@echo "🗑 Removendo todos os containers..."
+	-@docker rm $(shell docker ps -aq) 2>/dev/null || true
+	@echo "🗑 Removendo todas as imagens..."
+	-@docker rmi -f $(shell docker images -q) 2>/dev/null || true
+	@echo "🗑 Removendo todos os volumes..."
+	-@docker volume rm $(shell docker volume ls -q) 2>/dev/null || true
+	@echo "🗑 Removendo todas as redes não usadas..."
+	-@docker network prune -f
+	@echo "🧹 Limpando tudo com prune..."
+	-@docker system prune -a --volumes -f
+	@echo "✅ Limpeza concluída!"

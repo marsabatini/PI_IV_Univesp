@@ -7,7 +7,8 @@ Flask-JWT-Extended
 flask-cors
 
 # Banco de dados
-psycopg2-binary
+pymysql
+cryptography
 SQLAlchemy
 
 # Serialização
@@ -16,4 +17,4 @@ marshmallow-sqlalchemy
 
 # Desenvolvimento
 python-dotenv
-bcrypt==4.1.2
+bcrypt

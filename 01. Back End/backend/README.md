@@ -19,12 +19,13 @@ backend/
 │   ├── schemas/           # Validação com Marshmallow
 │   ├── config.py          # Configurações
 │   └── extensions.py      # Extensões Flask
-└── docker-compose.yml     # Configuração Docker
+└── Dockerfile
+docker-compose.yml         # Configuração Docker
 ```
 
 ## 🛠️ Instalação e Execução
 
-### Docker (Recomendado)
+### Docker
 
 1. **Clone o repositório**
 ```bash
@@ -34,8 +35,19 @@ cd horta-iot-api
 
 2. **Configure as variáveis de ambiente**
 ```bash
-cp backend/.env.example backend/.env
-# Edite o arquivo .env conforme necessário
+# Crie e edite o arquivo .env conforme necessário
+
+# Configurações do Flask
+FLASK_ENV='development'
+SECRET_KEY='secret-key'
+JWT_SECRET_KEY='jwt-secret-key'
+
+# Configurações do banco de dados
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=postgres
+DB_HOST=db
+DB_PORT=5432
 ```
 
 3. **Execute com Docker**
@@ -44,39 +56,52 @@ cp backend/.env.example backend/.env
 make up
 
 # Ou manualmente
-docker compose up -d
+docker compose up
 ```
 
 4. **Inicialize o banco de dados**
 ```bash
+# Para esses comandos funcionarem é preciso rodar o comadno anterior em outro terminal.
+# inicializa o banco
 make db-init
+
+# cria dados de exemplo
 make sample-data
 ```
 
-### Desenvolvimento Local
-
-1. **Instalar dependências**
+5. **Outra opção executar com (venv)**
 ```bash
-cd backend
+# Dentro da pasta do seu projeto (onde está o requirements.txt)
+
+# criar o venv
+python3 -m venv venv
+
+# ativar o venv
+# Linux / macOS
+source venv/bin/activate
+
+# Windows (PowerShell)
+venv\Scripts\Activate
+
+# Instalar as dependências quando for adicionado um novo pacote no projeto
+# Com o ambiente virtual ativado, rode:
+pip install --upgrade pip
 pip install -r requirements.txt
-```
 
-2. **Configurar banco PostgreSQL**
-```bash
-# Configure as variáveis no .env
-export POSTGRES_HOST=localhost
-export POSTGRES_USER=postgres
-export POSTGRES_PASSWORD=postgres
-```
-
-3. **Executar aplicação**
-```bash
+# Rodar a aplicação
 python run.py
+
+# Desativar o ambiente virtual
+deactivate
 ```
 
 ## 📚 Uso da API
 
 ### Endpoints Principais
+**Auth**
+- `POST /api/v1/auth/register` - Registrar novo usuário
+- `GET /api/v1/auth/login` - Login do usuário
+- `GET /api/v1/auth/profile` - Obter perfil do usuário logado
 
 **Eventos IoT**
 - `POST /api/v1/events` - Criar evento
@@ -96,6 +121,43 @@ python run.py
 - `GET /api/v1/heartbeats/devices/status` - Status de todos os dispositivos
 
 ### Exemplos de Requisições
+
+**Criar Usuário**
+```json
+POST /api/v1/auth/register
+{
+  "name": "string",
+  "email": "user@example.com",
+  "password": "string",
+  "phone": "string",
+  "cpf": "string",
+  "position": "string",
+  "university": "string",
+  "graduationYear": "string",
+  "school": {
+    "schoolName": "string",
+    "directorName": "string",
+    "coordinatorName": "string",
+    "schoolAddress": "string",
+    "schoolCity": "string",
+    "schoolState": "string",
+    "schoolZip": "string",
+    "schoolPhone": "string",
+    "schoolEmail": "user@example.com",
+    "studentsCount": 0,
+    "schoolType": "Privada"
+  }
+}
+```
+
+**Fazer Login**
+```json
+POST /api/v1/auth/login
+{
+  "email": "user@example.com",
+  "password": "string"
+}
+```
 
 **Criar Evento de Sensor**
 ```json
@@ -151,7 +213,7 @@ POST /api/v1/heartbeats
 # Ver logs
 make logs
 
-# Acessar shell do container
+# Acessar shell do backend
 make shell
 
 # Ver rotas da API

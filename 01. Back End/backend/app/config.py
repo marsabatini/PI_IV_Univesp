@@ -1,27 +1,25 @@
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+load_dotenv()
 
 class Config:
     """Configuração base"""
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=24)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
-    # JWT_TOKEN_LOCATION = ["headers"]
-    # JWT_HEADER_NAME = "Authorization"
-    # JWT_HEADER_TYPE = "Bearer"
-    # JWT_SUBJECT_IS_STR = False
 
     # Configuração do banco PostgreSQL
-    POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
-    POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'postgres')
-    POSTGRES_DB = os.environ.get('POSTGRES_DB', 'postgres')
-    POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'db')
-    POSTGRES_PORT = os.environ.get('POSTGRES_PORT', '5432')
+    DB_USER = os.getenv('DB_USER')
+    DB_PASSWORD = os.getenv('DB_PASSWORD')
+    DB_NAME = os.getenv('DB_NAME')
+    DB_HOST = os.getenv('DB_HOST')
+    DB_PORT = os.getenv('DB_PORT')
 
     SQLALCHEMY_DATABASE_URI = (
-        f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@"
-        f"{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+        f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@"
+        f"{DB_HOST}:{DB_PORT}/{DB_NAME}?charset=utf8mb4"
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
