@@ -24,7 +24,7 @@ class Heartbeat(db.Model, TimestampMixin):
     cpu_usage: Mapped[float] = mapped_column(Float, nullable=True)  # Percentual
     
     # Dados adicionais
-    system_info: Mapped[dict] = mapped_column(JSON, nullable=True)
+    system_info: Mapped[dict] = mapped_column(JSON(none_as_null=True), nullable=True)
     
     # IP e localização de rede
     ip_address: Mapped[str] = mapped_column(String(45), nullable=True)  # IPv4/IPv6

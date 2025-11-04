@@ -17,8 +17,8 @@ class IoTEvent(db.Model, TimestampMixin):
     unit: Mapped[str] = mapped_column(String(20), nullable=True)
     
     # Dados adicionais em JSON
-    data: Mapped[dict] = mapped_column(JSON, nullable=True)
-    raw_data: Mapped[dict] = mapped_column(JSON, nullable=True)
+    data: Mapped[dict] = mapped_column(JSON(none_as_null=True), nullable=True)
+    raw_data: Mapped[dict] = mapped_column(JSON(none_as_null=True), nullable=True)
     
     # Localização (opcional)
     location: Mapped[str] = mapped_column(String(100), nullable=True)

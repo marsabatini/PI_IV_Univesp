@@ -14,7 +14,7 @@ class IoTCommand(db.Model, TimestampMixin):
     command: Mapped[str] = mapped_column(String(100), nullable=False)
     
     # Parâmetros do comando
-    parameters: Mapped[dict] = mapped_column(JSON, nullable=True)
+    parameters: Mapped[dict] = mapped_column(JSON(none_as_null=True), nullable=True)
     
     # Status do comando
     status: Mapped[str] = mapped_column(
@@ -30,7 +30,7 @@ class IoTCommand(db.Model, TimestampMixin):
     completed_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
     
     # Resposta do dispositivo
-    response: Mapped[dict] = mapped_column(JSON, nullable=True)
+    response: Mapped[dict] = mapped_column(JSON(none_as_null=True), nullable=True)
     error_message: Mapped[str] = mapped_column(Text, nullable=True)
     
     # Prioridade e timeout
