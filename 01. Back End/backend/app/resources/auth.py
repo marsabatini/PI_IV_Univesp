@@ -95,7 +95,21 @@ class UserLogin(MethodView):
                 'university':user.university,
                 'position':user.position,
                 'graduationYear':user.graduationYear,
-                'email': user.email
+                'email': user.email,
+                'school': {
+                    'id': user.school.id,
+                    'schoolName': user.school.schoolName,
+                    'directorName': user.school.directorName,
+                    'coordinatorName': user.school.coordinatorName,
+                    'schoolAddress': user.school.schoolAddress,
+                    'schoolCity': user.school.schoolCity,
+                    'schoolState': user.school.schoolState,
+                    'schoolZip': user.school.schoolZip,
+                    'schoolPhone': user.school.schoolPhone,
+                    'schoolEmail': user.school.schoolEmail,
+                    'studentsCount': user.school.studentsCount,
+                    'schoolType': user.school.schoolType
+                }
             }
         }
 

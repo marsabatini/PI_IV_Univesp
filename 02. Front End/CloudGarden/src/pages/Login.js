@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, ArrowLeft } from 'lucide-react';
+import api from "../services/Api"
 
 import '../styles/login.css';
 
@@ -13,6 +14,8 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate()
 
   // Validação de email
   const validateEmail = (email) => {
@@ -71,10 +74,16 @@ const Login = () => {
 
     // Simular chamada de API
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      const response = await api.post('/api/v1/auth/login', {
+        email: formData.email,
+        password: formData.password
+      });
+      localStorage.setItem('userData', JSON.stringify(response.data));
+      console.log('Dados salvos:', response.data);
+
       console.log('Login realizado:', { email: formData.email, password: formData.password });
       // Redirecionar para dashboard
+      navigate("/dashboard")
       alert('Login realizado com sucesso!');
     } catch (error) {
       console.error('Erro:', error);

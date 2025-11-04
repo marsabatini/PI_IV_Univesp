@@ -20,7 +20,9 @@ const Configuracoes = () => {
   // Estados de navegação entre seções
   const [secaoAtiva, setSecaoAtiva] = useState('perfil');
   const [alteracoesNaoSalvas, setAlteracoesNaoSalvas] = useState(false);
-  
+  const userData =  JSON.parse(localStorage.getItem('userData'))
+  console.log(userData)
+
   // Estados para expansão de seções
   const [secoesExpandidas, setSecoesExpandidas] = useState({
     perfil: true,
@@ -33,28 +35,27 @@ const Configuracoes = () => {
 
   // ========== PERFIL DO USUÁRIO ==========
   const [dadosPerfil, setDadosPerfil] = useState({
-    nome: 'Maria Silva',
-    cpf: '123.456.789-00',
-    telefone: '(11) 99999-9999',
-    email: 'maria@escola.com.br',
-    idade: '35',
-    universidade: 'USP',
-    anoFormacao: '2012',
-    cargo: 'Professora',
+    nome: userData.user.name,
+    cpf: userData.user.cpf,
+    telefone: userData.user.phone,
+    email: userData.user.email,
+    universidade: userData.user.university,
+    anoFormacao: userData.user.graduationYear,
+    cargo: userData.user.position,
     foto: null,
     
     // Dados da escola
-    nomeEscola: 'Escola Municipal',
-    nomeDiretor: 'João Santos',
-    nomeCoordenador: 'Ana Costa',
-    enderecoEscola: 'Rua das Flores, 123',
-    cidadeEscola: 'Osasco',
-    estadoEscola: 'SP',
-    cepEscola: '06000-000',
-    telefoneEscola: '(11) 3333-4444',
-    emailEscola: 'contato@escola.com.br',
-    numeroAlunos: '500',
-    tipoEscola: 'publica_municipal',
+    nomeEscola: userData.user.school.schoolName,
+    nomeDiretor: userData.user.school.directorName,
+    nomeCoordenador: userData.user.school.coordinatorName,
+    enderecoEscola: userData.user.school.schoolAddress,
+    cidadeEscola: userData.user.school.schoolCity,
+    estadoEscola: userData.user.school.schoolState,
+    cepEscola: userData.user.school.schoolZip,
+    telefoneEscola: userData.user.school.schoolPhone,
+    emailEscola: userData.user.school.schoolEmail,
+    numeroAlunos: userData.user.school.studentsCount,
+    tipoEscola: userData.user.school.schoolType,
     possuiHorta: true
   });
 
@@ -476,16 +477,7 @@ const Configuracoes = () => {
                     </div>
                   </div>
 
-                  <div className="campo-config">
-                    <label>Idade</label>
-                    <input
-                      type="number"
-                      value={dadosPerfil.idade}
-                      onChange={(e) => atualizarPerfil('idade', e.target.value)}
-                      min="18"
-                      max="100"
-                    />
-                  </div>
+                  
 
                   <div className="campo-config">
                     <label>Universidade</label>
