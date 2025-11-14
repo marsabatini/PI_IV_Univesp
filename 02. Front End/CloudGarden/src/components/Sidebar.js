@@ -13,6 +13,8 @@ const Sidebar = ({ collapsed, onToggle }) => {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
 
+  const userData =  JSON.parse(localStorage.getItem('userData'))
+
   // Detectar se é mobile
   useEffect(() => {
     const checkMobile = () => {
@@ -45,9 +47,9 @@ const Sidebar = ({ collapsed, onToggle }) => {
 
   const handleNavigation = (path, isLogout) => {
     if (isLogout) {
-      // Limpar dados de sessão/localStorage se necessário
-      // localStorage.removeItem('token');
-      // sessionStorage.clear();
+       localStorage.removeItem('token');
+       localStorage.removeItem('userData');
+       sessionStorage.clear();
       navigate(path);
     } else {
       navigate(path);
@@ -116,8 +118,8 @@ const Sidebar = ({ collapsed, onToggle }) => {
             </div>
             {!collapsed && (
               <div className="user-details">
-                <span className="user-name">Maria Silva</span>
-                <span className="user-role">Professora</span>
+                <span className="user-name">{userData.user.name}</span>
+                <span className="user-role">{userData.user.position}</span>
               </div>
             )}
           </div>

@@ -21,7 +21,6 @@ const Configuracoes = () => {
   const [secaoAtiva, setSecaoAtiva] = useState('perfil');
   const [alteracoesNaoSalvas, setAlteracoesNaoSalvas] = useState(false);
   const userData =  JSON.parse(localStorage.getItem('userData'))
-  console.log(userData)
 
   // Estados para expansão de seções
   const [secoesExpandidas, setSecoesExpandidas] = useState({

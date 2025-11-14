@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { 
-  Droplets, Clock, Calendar, TrendingUp, AlertTriangle, 
+import React, { useState, useRef } from 'react';
+import {
+  Droplets, Clock, Calendar, TrendingUp, AlertTriangle,
   Settings, Play, Pause, RefreshCw, Zap, CloudRain,
   Thermometer, Wind, Sun, Activity, CheckCircle,
   XCircle, Info, ChevronDown, ChevronUp, Timer,
@@ -16,7 +16,9 @@ const Irrigacao = () => {
   const [statusIrrigacao, setStatusIrrigacao] = useState('inativo'); // ativo, pausado, agendado
   const [zonasSelecionada, setZonaSelecionada] = useState('todas');
   const [mostrarConfiguracoesAvancadas, setMostrarConfiguracoesAvancadas] = useState(false);
-  
+
+  const timeoutRef = useRef(null);
+
   // Estados para configurações
   const [configuracoes, setConfiguracoes] = useState({
     vazao: 2.5, // L/min
@@ -31,73 +33,76 @@ const Irrigacao = () => {
 
   // Dados de zonas de irrigação
   const [zonas, setZonas] = useState([
-    { 
-      id: 1, 
-      nome: 'Zona A - Hortaliças', 
-      status: 'ativo',
-      umidade: 45, 
+    {
+      id: 1,
+      nome: "FakeDevice123" ,
+      status: 'inativo',
+      umidade: 45,
       ultimaIrrigacao: '08:30',
       proximaIrrigacao: '14:30',
       consumo: 12.5,
       saude: 'excelente',
-      sensores: { temp: 24, umidade: 65, luz: 750 }
+      sensores: { temp: 24, umidade: 65, luz: 750 },
+      imei: 'FakeDevice123'
     },
     { 
       id: 2, 
-      nome: 'Zona B - Temperos', 
+      nome: "ESP32", 
       status: 'agendado',
       umidade: 38, 
       ultimaIrrigacao: '07:15',
       proximaIrrigacao: '15:00',
       consumo: 8.3,
       saude: 'bom',
-      sensores: { temp: 23, umidade: 58, luz: 680 }
+      sensores: { temp: 23, umidade: 58, luz: 680 },
+      imei:"9999999999"
     },
-    { 
-      id: 3, 
-      nome: 'Zona C - Frutas', 
-      status: 'inativo',
-      umidade: 52, 
-      ultimaIrrigacao: '09:45',
-      proximaIrrigacao: '16:00',
-      consumo: 15.7,
-      saude: 'atencao',
-      sensores: { temp: 25, umidade: 70, luz: 820 }
-    },
-    { 
-      id: 4, 
-      nome: 'Zona D - Folhosas', 
-      status: 'inativo',
-      umidade: 28, 
-      ultimaIrrigacao: '06:00',
-      proximaIrrigacao: '12:00',
-      consumo: 10.2,
-      saude: 'critico',
-      sensores: { temp: 26, umidade: 48, luz: 600 }
-    }
+    //{ 
+    //  id: 3, 
+    //  nome: 'Zona C - Frutas', 
+    //  status: 'inativo',
+    //  umidade: 52, 
+    //  ultimaIrrigacao: '09:45',
+    //  proximaIrrigacao: '16:00',
+    //  consumo: 15.7,
+    //  saude: 'atencao',
+    //  sensores: { temp: 25, umidade: 70, luz: 820 }
+    //},
+    //{ 
+    //  id: 4, 
+    //  nome: 'Zona D - Folhosas', 
+    //  status: 'inativo',
+    //  umidade: 28, 
+    //  ultimaIrrigacao: '06:00',
+    //  proximaIrrigacao: '12:00',
+    //  consumo: 10.2,
+    //  saude: 'critico',
+    //  sensores: { temp: 26, umidade: 48, luz: 600 }
+    //}
   ]);
 
   // Programações de irrigação
   const [programacoes, setProgramacoes] = useState([
-    { id: 1, nome: 'Manhã Cedo', horario: '06:00', zonas: [1, 2, 3, 4], ativo: true, dias: ['Seg', 'Qua', 'Sex'] },
-    { id: 2, nome: 'Meio-dia', horario: '12:00', zonas: [1, 4], ativo: false, dias: ['Todos'] },
-    { id: 3, nome: 'Fim de Tarde', horario: '18:00', zonas: [2, 3], ativo: true, dias: ['Ter', 'Qui', 'Sáb'] },
-    { id: 4, nome: 'Noturna', horario: '22:00', zonas: [1, 2, 3, 4], ativo: false, dias: ['Dom'] }
+    { id: 1, nome: 'FakeDevice', horario: '06:00', zonas: [1], ativo: false, dias: ['Seg', 'Qua', 'Sex', 'Sáb', 'Dom'] },
+    { id: 1, nome: 'ESP32', horario: '22:00', zonas: [1], ativo: false, dias: ['Seg', 'Qua', 'Sex', 'Sáb', 'Dom'] },
+    //{ id: 2, nome: 'Meio-dia', horario: '12:00', zonas: [1], ativo: false, dias: ['Todos'] },
+    //{ id: 3, nome: 'Fim de Tarde', horario  : '18:00', zonas: [1], ativo: true, dias: ['Ter', 'Qui', 'Sáb', 'Dom'] },
+    //{ id: 4, nome: 'Noturna', horario: '22:00', zonas: [1], ativo: false, dias: ['Sáb','Dom', ] }
   ]);
 
   // Histórico recente
   const [historicoRecente] = useState([
-    { horario: '10:30', zona: 'Zona A', duracao: '12 min', volume: '30L', status: 'completo' },
-    { horario: '09:15', zona: 'Zona C', duracao: '15 min', volume: '37.5L', status: 'completo' },
-    { horario: '08:00', zona: 'Zona B', duracao: '8 min', volume: '20L', status: 'interrompido' },
-    { horario: '06:45', zona: 'Zona D', duracao: '10 min', volume: '25L', status: 'completo' }
+    //{ horario: '10:30', zona: 'Zona A', duracao: '12 min', volume: '30L', status: 'completo' },
+    //{ horario: '09:15', zona: 'Zona C', duracao: '15 min', volume: '37.5L', status: 'completo' },
+    //{ horario: '08:00', zona: 'Zona B', duracao: '8 min', volume: '20L', status: 'interrompido' },
+    //{ horario: '06:45', zona: 'Zona D', duracao: '10 min', volume: '25L', status: 'completo' }
   ]);
 
   // Alertas e sugestões
   const [alertas] = useState([
-    { tipo: 'aviso', mensagem: 'Zona D com umidade baixa (28%). Irrigação recomendada.' },
-    { tipo: 'info', mensagem: 'Previsão de chuva para amanhã. Considere ajustar programação.' },
-    { tipo: 'sucesso', mensagem: 'Economia de 15% de água nesta semana comparado à anterior.' }
+    //{ tipo: 'aviso', mensagem: 'Zona D com umidade baixa (28%). Irrigação recomendada.' },
+    //{ tipo: 'info', mensagem: 'Previsão de chuva para amanhã. Considere ajustar programação.' },
+    //{ tipo: 'sucesso', mensagem: 'Economia de 15% de água nesta semana comparado à anterior.' }
   ]);
 
   // Dados climáticos
@@ -109,29 +114,85 @@ const Irrigacao = () => {
   };
 
   // Funções de controle
-  const iniciarIrrigacao = (zonaId = null) => {
+  async function iniciarIrrigacao(zonaId = null, imei) {
+  try {
+    const response = await fetch(
+      `http://3.18.34.3/iot/envia_configuracao?imei=${imei}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bomba: true, intervalo: 30 })
+      }
+    );
+
+    if (!response.ok) throw new Error("Erro ao ligar bomba");
+
     if (zonaId) {
-      setZonas(zonas.map(z => 
-        z.id === zonaId ? { ...z, status: 'ativo' } : z
-      ));
+      setZonas(prev =>
+        prev.map(z =>
+          z.id === zonaId ? { ...z, status: "ativo" } : z
+        )
+      );
     } else {
-      setStatusIrrigacao('ativo');
-      setZonas(zonas.map(z => ({ ...z, status: 'ativo' })));
+      setStatusIrrigacao("ativo");
+      setZonas(prev => prev.map(z => ({ ...z, status: "ativo" })));
     }
-  };
 
-  const pausarIrrigacao = () => {
-    setStatusIrrigacao('pausado');
-    setZonas(zonas.map(z => ({ ...z, status: 'inativo' })));
-  };
+    // Desativa após 30s
+    setTimeout(() => {
+      if (zonaId) {
+        setZonas(prev =>
+          prev.map(z =>
+            z.id === zonaId ? { ...z, status: "inativo" } : z
+          )
+        );
+      } else {
+        setStatusIrrigacao("inativo");
+        setZonas(prev => prev.map(z => ({ ...z, status: "inativo" })));
+      }
+    }, 30000);
 
-  const pararIrrigacao = () => {
-    setStatusIrrigacao('inativo');
-    setZonas(zonas.map(z => ({ ...z, status: 'inativo' })));
-  };
+  } catch (error) {
+    console.error(error);
+  }
+}
+  
+async function pararIrrigacao({ zonaId = null, imei }) {
+  try {
 
+    if (zonaId) {
+      setZonas(prev =>
+        prev.map(z =>
+          z.id === zonaId ? { ...z, status: 'inativo' } : z
+        )
+      );
+    } else {
+      setStatusIrrigacao('inativo');
+      setZonas(prev => prev.map(z => ({ ...z, status: 'inativo' })));
+    }
+
+    const response = await fetch(`http://3.18.34.3/iot/envia_configuracao?imei=${imei}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ bomba: false })
+    });
+
+    if (!response.ok) throw new Error("Erro ao parar bomba");
+
+    const data = await response.json();
+    console.log("Bomba desligada:", data);
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+//const pausarIrrigacao = () => {
+//  setStatusIrrigacao('pausado');
+//  setZonas(zonas.map(z => ({ ...z, status: 'inativo' })));
+//};
   const alternarProgramacao = (programacaoId) => {
-    setProgramacoes(programacoes.map(p => 
+    setProgramacoes(programacoes.map(p =>
       p.id === programacaoId ? { ...p, ativo: !p.ativo } : p
     ));
   };
@@ -147,7 +208,7 @@ const Irrigacao = () => {
 
   // Renderização de ícone de status
   const obterIconeStatus = (status) => {
-    switch(status) {
+    switch (status) {
       case 'ativo': return <CheckCircle className="status-ativo" size={16} />;
       case 'agendado': return <Clock className="status-agendado" size={16} />;
       case 'pausado': return <Pause className="status-pausado" size={16} />;
@@ -157,7 +218,7 @@ const Irrigacao = () => {
 
   // Renderização de cor de saúde
   const obterClasseSaude = (saude) => {
-    switch(saude) {
+    switch (saude) {
       case 'excelente': return 'saude-excelente';
       case 'bom': return 'saude-bom';
       case 'atencao': return 'saude-atencao';
@@ -167,8 +228,8 @@ const Irrigacao = () => {
   };
 
   return (
-    <Layout 
-      pageTitle="Irrigação" 
+    <Layout
+      pageTitle="Irrigação"
       pageSubtitle="Controle e monitore o sistema de irrigação da sua horta inteligente"
       activeMenuItem="Irrigação"
     >
@@ -194,7 +255,7 @@ const Irrigacao = () => {
             <h2>Controle Principal</h2>
             <div className="alternador-modo">
               <span className={!modoAutomatico ? 'ativo' : ''}>Manual</span>
-              <button 
+              <button
                 className="botao-alternador"
                 onClick={() => setModoAutomatico(!modoAutomatico)}
               >
@@ -212,15 +273,15 @@ const Irrigacao = () => {
               <div className="texto-status">
                 <span className="rotulo-status">Status Atual</span>
                 <span className="valor-status">
-                  {statusIrrigacao === 'ativo' ? 'Irrigando' : 
-                   statusIrrigacao === 'pausado' ? 'Pausado' : 
-                   statusIrrigacao === 'agendado' ? 'Agendado' : 'Inativo'}
+                  {statusIrrigacao === 'ativo' ? 'Irrigando' :
+                    statusIrrigacao === 'pausado' ? 'Pausado' :
+                      statusIrrigacao === 'agendado' ? 'Agendado' : 'Inativo'}
                 </span>
               </div>
             </div>
 
             <div className="botoes-controle">
-              <button 
+              <button
                 className="btn-controle btn-iniciar"
                 onClick={() => iniciarIrrigacao()}
                 disabled={statusIrrigacao === 'ativo'}
@@ -228,15 +289,17 @@ const Irrigacao = () => {
                 <Play size={18} />
                 Iniciar
               </button>
-              <button 
-                className="btn-controle btn-pausar"
-                onClick={pausarIrrigacao}
-                disabled={statusIrrigacao !== 'ativo'}
-              >
+              {/*
+                <button 
+                  className="btn-controle btn-pausar"
+                  onClick={pausarIrrigacao}
+                  disabled={statusIrrigacao !== 'ativo'}
+                >
                 <Pause size={18} />
                 Pausar
               </button>
-              <button 
+                */}
+              <button
                 className="btn-controle btn-parar"
                 onClick={pararIrrigacao}
                 disabled={statusIrrigacao === 'inativo'}
@@ -251,7 +314,7 @@ const Irrigacao = () => {
             <div className="item-estatistica">
               <Droplets size={20} />
               <span className="rotulo-estatistica">Zonas Ativas</span>
-              <span className="valor-estatistica">{zonasAtivasContagem}/4</span>
+              <span className="valor-estatistica">{zonasAtivasContagem}/{zonas.length}</span>
             </div>
             <div className="item-estatistica">
               <Gauge size={20} />
@@ -319,7 +382,7 @@ const Irrigacao = () => {
         <div className="cartao-controle">
           <div className="cabecalho-controle">
             <h2>Status de Zonas</h2>
-            <select 
+            <select
               className="seletor-zona"
               value={zonasSelecionada}
               onChange={(e) => setZonaSelecionada(e.target.value)}
@@ -338,7 +401,7 @@ const Irrigacao = () => {
                   <h4>{zona.nome}</h4>
                   {obterIconeStatus(zona.status)}
                 </div>
-                
+
                 <div className="info-zona">
                   <div className="metrica-zona">
                     <Droplets size={16} />
@@ -347,8 +410,8 @@ const Irrigacao = () => {
                   </div>
                   <div className={`indicador-saude ${obterClasseSaude(zona.saude)}`}>
                     {zona.saude === 'excelente' ? 'Excelente' :
-                     zona.saude === 'bom' ? 'Bom' :
-                     zona.saude === 'atencao' ? 'Atenção' : 'Crítico'}
+                      zona.saude === 'bom' ? 'Bom' :
+                        zona.saude === 'atencao' ? 'Atenção' : 'Crítico'}
                   </div>
                 </div>
 
@@ -364,9 +427,9 @@ const Irrigacao = () => {
                 </div>
 
                 <div className="acoes-zona">
-                  <button 
+                  <button
                     className="btn-acao-zona btn-acao-irrigar"
-                    onClick={() => iniciarIrrigacao(zona.id)}
+                    onClick={() => iniciarIrrigacao(zona.id, zona.imei)}
                     disabled={zona.status === 'ativo'}
                   >
                     <Play size={14} />
@@ -410,7 +473,8 @@ const Irrigacao = () => {
                 </div>
               </div>
               <div className="acoes-programacao">
-                <button 
+                <button
+                  style={{ display: "none" }}
                   className={`btn-alternar ${programacao.ativo ? 'ativo' : ''}`}
                   onClick={() => alternarProgramacao(programacao.id)}
                 >
@@ -515,7 +579,7 @@ const Irrigacao = () => {
 
       {/* Configurações Avançadas (Expansível) */}
       <div className="configuracoes-avancadas">
-        <button 
+        <button
           className="alternador-avancado"
           onClick={() => setMostrarConfiguracoesAvancadas(!mostrarConfiguracoesAvancadas)}
         >
@@ -523,7 +587,7 @@ const Irrigacao = () => {
           <span>Configurações Avançadas</span>
           {mostrarConfiguracoesAvancadas ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </button>
-        
+
         {mostrarConfiguracoesAvancadas && (
           <div className="painel-avancado">
             <div className="grade-avancada">

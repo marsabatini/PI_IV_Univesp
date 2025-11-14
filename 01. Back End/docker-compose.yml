@@ -13,23 +13,3 @@ services:
     env_file:
       - ./backend/.env
     tty: true
-    depends_on:
-      - db
-
-  db:
-    image: mysql:8.0
-    container_name: horta-db
-    restart: always
-    volumes:
-      - db_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: mysql
-      MYSQL_DATABASE: mysql
-      MYSQL_USER: mysql
-      MYSQL_PASSWORD: mysql
-    ports:
-      - "3306:3306"
-    command: --default-authentication-plugin=caching_sha2_password
-
-volumes:
-  db_data:

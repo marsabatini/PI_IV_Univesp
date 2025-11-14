@@ -63,9 +63,10 @@ const Layout = ({ children, pageTitle, pageSubtitle }) => {
   };
 
   const handleLogout = () => {
-    // Limpar dados de sessão/localStorage se necessário
-    // localStorage.removeItem('token');
-    // sessionStorage.clear();
+     localStorage.removeItem('userData');
+     localStorage.removeItem('token');
+     sessionStorage.clear();
+
     navigate('/login');
   };
 
